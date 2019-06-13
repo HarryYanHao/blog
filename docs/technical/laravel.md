@@ -1,0 +1,32 @@
+---
+sidebar: 'auto'
+sidebarDepth: 1
+---
+# laravel框架
+## 依赖注入、控制反转、反射各个概念的理解和使用
+<https://laravelacademy.org/post/9782.html>
+<https://laravelacademy.org/post/9783.html>
+## 简化流程
+index.php单文件入口 bootstrap下app.php实例化Application类 其中Application类继承容器类Container Container类中提供bind make build方法 容器中维护绑定数组，绑定数组由key值和闭包组成。app的绑定动作在构造函数中实例化时候完成，其余绑定动作由服务提供商类继承的服务提供基类的抽象方法register方法进行bind  框架基础会自动make（build）对应的对象，自定义容器内的绑定数组根据业务场景需要调用make（build）方法实例化对象。
+## 概念简述
+bind：绑定数组key和闭包
+
+make：根据key 找到对应闭包 并执行该闭包 闭包内有build方法
+
+build：实例化，主要运用的方法是反射 根据绑定数组中的类名使用new ReflectionClass反射找到对应的类，由反射类获取构造函数getConstructor，获取构造函数的参数，利用递归实例化参数（创建依赖对象）实例化对象
+
+di：依赖注入，不在方法内部使用new 来创建对象，由构造方法，外部方法传入对象，达到代码解耦和开放封闭原则
+
+ioc：控制反转，不需要自己修改类中实例化的类，由外部传入实例化后的对象
+
+门面：使用静态方式 调用方法 实例化门面的基类 各个子类只返回需要实例化的key值 外部调用时调起基类中__callStatic的魔术方法 __callStatic调用make函数 生成对象后执行方法
+
+契约：实际上就是接口 使用interface定义接口方法 implements实现接口
+
+中间件：过滤进入web应用的Http请求，实现方法中主要运用的函数是array_reduce和call_user_function ,管道用数组的数据方式实现 根据管道里面的顺序 array_reduce生成对应的闭包 call_user_function调用执行
+
+### 实践
+仿造laravel的思想 自写框架
+[github](https://github.com/HarryYanHao/HF)
+
+

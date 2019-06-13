@@ -9,12 +9,12 @@ module.exports = {
 
   themeConfig: {
     //gitc 仓库地址
-    repo: 'xx/xx',
+    //repo: 'xx/xx',
     //导航栏
     nav: [
       { text: 'Home', link: '/' },
-      { text: '技术博客', link: '/technical/' },
-      { text: '个人文章', link: '/article/' },
+      { text: '技术文档', link: '/technical/' },
+      { text: '随笔', link: '/article/' },
     ],
     
   
@@ -30,6 +30,11 @@ module.exports = {
       '/article/': [
         '',
         'nippon',
+        'change',
+        'life'
+      ],
+      '/technical/':[
+        '',
       ]
     }
   }
