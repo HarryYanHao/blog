@@ -13,5 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "npm": "^6.9.0"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.0.0-rc.1"
   }
 }

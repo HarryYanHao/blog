@@ -4,7 +4,7 @@ sidebarDepth: 1
 ---
 # laravel框架
 ## 依赖注入、控制反转、反射各个概念的理解和使用
-<https://laravelacademy.org/post/9782.html>
+<https://laravelacademy.org/post/9782.html>  
 <https://laravelacademy.org/post/9783.html>
 ## 简化流程
 index.php单文件入口 bootstrap下app.php实例化Application类 其中Application类继承容器类Container Container类中提供bind make build方法 容器中维护绑定数组，绑定数组由key值和闭包组成。app的绑定动作在构造函数中实例化时候完成，其余绑定动作由服务提供商类继承的服务提供基类的抽象方法register方法进行bind  框架基础会自动make（build）对应的对象，自定义容器内的绑定数组根据业务场景需要调用make（build）方法实例化对象。
@@ -28,5 +28,6 @@ ioc：控制反转，不需要自己修改类中实例化的类，由外部传�
 ### 实践
 仿造laravel的思想 自写框架
 [github](https://github.com/HarryYanHao/HF)
+
 
 
