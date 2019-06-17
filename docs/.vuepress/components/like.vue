@@ -1,27 +1,31 @@
 <template>
   <div class="like">
-    <button class='like-toggle basic3' v-bind:class="{'like-active':isActive}" @click="like">{{ text }}</button>
+    <div><span @click='like'><vi-icon  :viIconName="icon"></vi-icon></span></div>
     <span class='tips' v-bind:class = "{'hidden':isHidden}">{{likeTips}}</span>
   </div>
 </template>
 
 <script>
+import './js/iconfont.js'
+import Icon from '../../../src/icon.vue'
 export default {
+  components:{
+     'vi-icon':Icon
+  },
   data () {
     return {
-      text: '♥',
       likeTips:'You like this!',
-      isActive:false,
+      icon:'xin',
       isHidden:true,
     }
   },
   methods:{
     like:function(){
-      if(!this.isActive){
-        this.isActive = true
+      if(this.icon == 'xin'){
+        this.icon = 'xinaixin'
         this.isHidden = false
       }else{
-        this.isActive = false
+        this.icon = 'xin'
         this.isHidden = true
       }
       
@@ -37,34 +41,6 @@ export default {
 .like{
   margin: 1em 0;
   text-align: center;
-}
-.like-toggle {
-    transition: all 0.3s linear;
-    outline: none;
-    box-shadow: none;
-    border: none;
-    width: 40px;
-    height: 30px;
-    font-size: 1.3em;
-    border-radius: 100px;
-}
-.like-toggle.basic3 {
-    border: none;
-    width: 30px;
-    height: 30px;
-    font-size: 1.3em;
-    border-radius: 100px;
-    background: #438cca;
-    color: #fff;
-    margin-bottom: 10px;
-}
-.like-toggle.basic3:not(.like-active):hover {
-    background: #f26c4f;
-    transform: rotate(90deg);
-}
-.like-active.basic3 {
-    background: #7cc576;
-    transform: rotate(-180deg);
 }
 .tips{
   font-weight:bold;

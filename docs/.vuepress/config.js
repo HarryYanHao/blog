@@ -37,7 +37,7 @@ module.exports = {
       '/technical/':[
         '',
         'laravel',
-        'vue'
+        'vuepress'
       ]
     }
   }
