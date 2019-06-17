@@ -34,7 +34,7 @@ npm init -y
 ``` js
 //config.js
 module.exports = {
-  title: '记录集',
+  title: '哈里小屋',
   description: '记录生活，记录成长',
   base: '/',
   host: '0.0.0.0',
@@ -195,6 +195,9 @@ export default {
 ```
 执行后会将所需用到的图片，静态资源，css，js打包到`docs/.vuepress/dist`目录下面，可利用nginx反代到该文件目录下。
 webpack的原理也大致如此。
+## 源码
+Harry's Blog [github](https://github.com/HarryYanHao/blog)
 ## 继续学习ing
 在这里会调试我的VuePress代码，可以不用关注
+
 <like/>

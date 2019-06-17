@@ -1,5 +1,5 @@
 module.exports = {
-  title: '记录集',
+  title: '哈里小屋',
   description: '记录生活，记录成长',
   base: '/',
   host: '0.0.0.0',
