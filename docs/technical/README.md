@@ -8,5 +8,4 @@ next: false
 
 **自主学习**
 
-[start!](../technical/laravel.html)
-
+<router-link :to="{ path: '/technical/laravel' }">开始！</router-link>
