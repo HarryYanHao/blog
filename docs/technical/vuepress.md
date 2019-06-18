@@ -90,7 +90,7 @@ $borderColor = #eaecef
 $codeBgColor = #282c34
 ```
 ### 自定义页面css覆盖
-[官方文档]("https://v1.vuepress.vuejs.org/zh/theme/default-theme-config.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2%E7%B1%BB")
+[官方文档]("https://v1.vuepress.vuejs.org/zh/theme/default-theme-config.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A1%B5%E9%9D%A2%E7%B1%BB")  
 有时候你可能需要为特定页面添加一个 CSS 类名，以方便针对该页面添加一些专门的 CSS。首先要在特定页面添加Front matter中申明一个class
 ``` yaml
 pageClass: common
@@ -119,7 +119,7 @@ npm install -D @vuepress/plugin-back-to-top@next
 plugins: ['@vuepress/back-to-top'] 
 ```
 ::: warning
-特别说明，在安装插件时需注意版本兼容，可以修改@next后的版本后 比如 npm install -D @vuepress/plugin-back-to-top@1.0.0-alpha.0
+特别说明，在安装插件时需注意版本兼容，可以修改@next后的版本号 比如 npm install -D @vuepress/plugin-back-to-top@1.0.0-alpha.0
 :::
 ## 动手写组件
 ### 什么是组件
