@@ -12,9 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "npm": "^6.9.0"
+    "element-ui": "^2.9.2",
+    "npm": "^6.9.0",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0"
+    "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0",
+    "mint-ui": "^2.2.13"
   }
 }

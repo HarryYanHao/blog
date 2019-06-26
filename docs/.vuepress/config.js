@@ -5,11 +5,15 @@ module.exports = {
   host: '0.0.0.0',
   //mac下port未生效
   port: 8081,
-  plugins: ['@vuepress/back-to-top'],
+  plugins: ['@vuepress/back-to-top',
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }],
 
   themeConfig: {
     //gitc 仓库地址
-    //repo: 'xx/xx',
+    repo: '/HarryYanHao',
     //导航栏
     nav: [
       { text: 'Home', link: '/' },
