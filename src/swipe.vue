@@ -18,13 +18,11 @@ export default{
         }
     },
   methods:{
-      imgLoad(){
+      imgLoad(msg){
+          console.log(msg.path[4])
           this.$nextTick(function () {
-            setTimeout(() =>{
-              console.log(this.$refs.imgRef[0].$el.clientHeight)
-              this.elHeight = this.$refs.imgRef[0].$el.clientHeight
-            },100);
-            
+            console.log(this.$refs.imgRef[0].$el.clientHeight)
+            this.elHeight = this.$refs.imgRef[0].$el.clientHeight
         })
       },
       handleChange(i) {

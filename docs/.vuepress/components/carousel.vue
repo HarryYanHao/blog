@@ -17,7 +17,7 @@ export default{
         is_terminal:true,
       }
     },
-  mounted(){
+  created(){
       this.$nextTick(function () {
         this.is_terminal = navigator.userAgent.match(/(iPhone|iPod|Androids|ios)/i)
       })
@@ -27,7 +27,10 @@ export default{
         this.items = [{'url':'/nippon.jpeg'},{'url':'/nippon.jpeg'},{'url':'/nippon.jpeg'}]
       }
       if(path == '/article/change.html'){
-        this.items = [{'url':'/nippon.jpeg'},{'url':'/nippon1.jpg'},{'url':'/tbskc.png'}]
+        this.items = [{'url':'/change_banner1.jpg'},{'url':'/change_banner2.jpg'},{'url':'/change_banner3.jpg'},{'url':'/change_banner4.jpg'},{'url':'/change_banner5.jpg'}]
+      }
+      if(path == '/article/nippon.html'){
+        this.items = [{'url':'/nippon_banner1.jpg'},{'url':'/nippon_banner2.jpg'},{'url':'/nippon_banner3.jpg'},{'url':'/nippon_banner4.jpg'},{'url':'/nippon_banner5.jpg'},{'url':'/nippon_banner6.jpg'}]
       }
     }
 }

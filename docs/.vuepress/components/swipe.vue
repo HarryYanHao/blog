@@ -15,12 +15,14 @@ export default{
     },
   mounted(){
       const path = this.$page.path
+      
       if(path == '/technical/vuepress.html'){
         this.items = [{'url':'/nippon.jpeg'},{'url':'/nippon.jpeg'},{'url':'/nippon.jpeg'}]
       }
       if(path == '/article/change.html'){
         this.items = [{'url':'/nippon.jpeg'},{'url':'/nippon1.jpg'},{'url':'/tbskc.png'}]
       }
+      
     }
 }
 </script>
