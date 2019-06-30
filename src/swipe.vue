@@ -9,7 +9,7 @@
 export default{
   data(){
     return {
-      elHeight:0
+      elHeight:200
     }
   },
    props:{
@@ -19,7 +19,6 @@ export default{
     },
   methods:{
       imgLoad(msg){
-          console.log(msg.path[4])
           this.$nextTick(function () {
             console.log(this.$refs.imgRef[0].$el.clientHeight)
             this.elHeight = this.$refs.imgRef[0].$el.clientHeight
@@ -31,9 +30,7 @@ export default{
     },
     mounted(){
       const that = this
-      window.addEventListener('resize',function(){
-        that.elHeight = that.$refs.imgRef[0].$el.clientHeight
-      })   
+      
     }
 }
 </script>
