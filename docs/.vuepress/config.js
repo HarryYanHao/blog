@@ -41,7 +41,8 @@ module.exports = {
       '/technical/':[
         '',
         'laravel',
-        'vuepress'
+        'vuepress',
+        'mysql',
       ]
     }
   }
