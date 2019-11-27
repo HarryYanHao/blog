@@ -43,6 +43,9 @@ module.exports = {
         'laravel',
         'vuepress',
         'mysql',
+        'http',
+        'algorithm',
+        'design'
       ]
     }
   }

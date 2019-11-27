@@ -72,3 +72,5 @@ select * from music163 where create_time = curdate();
 5.垂直拆分表  
 6.水平拆分  
 成本又低到高 成本越高效果越好
+
+
