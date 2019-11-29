@@ -45,7 +45,8 @@ module.exports = {
         'mysql',
         'http',
         'algorithm',
-        'design'
+        'design',
+        'nginx'
       ]
     }
   }
