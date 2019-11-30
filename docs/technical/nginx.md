@@ -57,6 +57,10 @@ nginx支持的负载均衡调度算法有以下五种
 
 ## Nginx 性能优化 
 ### Nginx 运行工作进程数量
+```
+#nginx 配置
+worker_processes 4;
+```
 nginx默认采用多进程工作方式，Nginx启动后会运行一个master进程和多个的worker进程，和配置的数量有关。master进程主要用来管理work进程。
 1.接收来自外界的信号。    
 2.向各worker进程发送信号。   
@@ -66,8 +70,6 @@ work进程主要用来处理网络事件，各个worker进程之间是对等且�
 
 ### Nginx运行CPU亲和力
 ```
-#nginx 配置
-worker_processes 4;
 worker_cpu_affinity 0001 0010 0100 1000;
 ```
 
@@ -76,6 +78,66 @@ worker_cpu_affinity 0001 0010 0100 1000;
 work_rlimit_nofile 65535;
 ```
 这个配置是指当一个nginx进程打开的最多文件描述符数目，理论值是应该是最多打开文件数(ulimit -n)与nginx进程数相除，但是nginx分配请求不是那么均匀，所以最好与ulimit -n的值保持一致
+### Nginx事件处理模型
+```
+events{
+	use epoll;
+	worker_connections 65535;
+	multi_accept on;
+	accept_mutex off;
+}
+```
+nginx采用epoll事件模型，处理效率高。--后续会继续理解 事件处理模型 epoll 阻塞i/o等    
+`work_connections`:是单个worker进程允许客户端最大连接数，这个数值一般根据服务器性能和内存来判定，实际最大值就是worker进程数 * work_connections    
+`multi_accept`:使得work进程获得连接通知时尽可能多的接收连接。该配置的作用是立即接收所有连接放到监听队列中。如果配置为off，work进程将逐个接受连接       
+`accept_mutex`:为off，当有一个请求进来，所有可用的worker都会被唤醒，但只有一个worker处理连接。这就导致惊群现象，当只有少量请求时，每秒重复多次，则会导致服务器性能下降，因为所有被唤醒的worker都在占用cpu的时间。增加了上下文切换。所以当没有大量并发请求时可以处理为on
+### 开启高效传输模式
+```
+http{
+	include mime.types;
+	default_type application/octet-stream;
+	···
+	sendfile on;
+	tcp_nopush on;
+	···
+}
+```
+`include mime.types`:媒体类型，include 只是一个再当前文件中包含另一个文件内容的指令   
+`default_type`:默认媒体类型   
+`sendfile on`:开启高效文件传输模式，sendfile指令指定nginx是否调用sendfile函数来输出文件，对于普通应用设为on，如果用来进行下载等磁盘IO重负载应用，可设置为off，以平衡磁盘与网络I/O处理速度，降低系统负载。
+`tcp_no_push`:必须在sendfile开启的模式下才有效，防止网络阻塞，积极的减少网络报文段的数量（将响应头和正文的开始部分一起发送，而不是一个接一个的发送）
+
+### 连接超时时间
+主要目的是保护服务器资源，cpu，内存，控制连接数，因为建立连接也是需要消耗资源的。   
+暂时没有进行这方面调优 稍后回来更新
+
+### fastcgi调优
+
+### gzip调优
+使用gzip压缩功能，可以为我们节约带宽，加快服务器客户端传输速度，有更好的体验，也为我们节约了成本，所以说这是一个重点。
+一般我们需要压缩的内容有：文本，js，html，css，对于图片，视频，flash不进行压缩，同时也要注意gzip功能是需要消耗cpu的。
+```
+gzip on;
+gzip_min_length:2k;
+gzip_buffers 4 32k;
+gzip_http_version 1.1;
+gzip_comp_level 6;
+gzip_types text/plain text/css text/javascript application/json application/x-javascript application/xml;
+gzip vary on;
+gzip proxied any;
+```
+`gzip on` 开启gzip压缩
+`gzip_min_length` 1k 设置允许压缩的页面最小字节数 从header投的Content-Length中获取，默认是0，不管多大都进行压缩，建议设置大于1k，如果小于1k可能会越压越大。   
+`gzip_buffers`: 4 32k 压缩缓冲区大小，表示申请4个单位为32k的内存作为压缩结果流缓存，默认值是申请与原始大小相同的内存空间来储存gzip的压缩结果。   
+`gzip_http_version`:压缩版本，用于设置识别http协议版本，默认是1.1，针对不支持gzip解压的浏览器用于判断，现在基本不用配置这个值。   
+`gzip_comp_level`: 压缩比例，用于指定gzip压缩比，1压缩比例最小 处理速度最快 消耗cpu资源少 9 压缩比例最大 处理速度慢 消耗cpu资源多。   
+`gzip_type`: 用于指定压缩mime类型 `text/html`类型总会被压缩。不能使用通配符如text/*   
+`gzip_vary`: varyheader支持，该选项可以让前端缓存服务器经过gzip压缩过得页面。   
+
+
+
+
+
 
 
 
