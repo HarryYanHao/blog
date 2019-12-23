@@ -46,7 +46,8 @@ module.exports = {
         'http',
         'algorithm',
         'design',
-        'nginx'
+        'nginx',
+        'redis'
       ]
     }
   }
