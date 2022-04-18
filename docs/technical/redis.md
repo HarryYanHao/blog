@@ -101,6 +101,21 @@ Redis的list（列表）数据结构常用来作为异步消息队列使用，�
 ### 基本使用
 Redis的位数组是自动扩展的，如果设置了某个偏移位置超出了现有的内容范围，就会自动将位数组进行零扩充。基本使用有零存零取，零存整取，整存零取。零存就是使用`setbit`，零取使用`getbit`，整取使用`get`，如果对应位的字节是不可打印的字符，redis-cli会显示该字符的16进制形式。
 ### 统计和查找
-Redis 提供了位图的统计指令 bitcount和位图的查找指令bitpos，bitcount用来统计指定位置范围内1的个数，bitpos用来查找指定范围内出现的第一个0或1。
-
-
+Redis 提供了位图的统计指令 bitcount和位图的查找指令bitpos，bitcount用来统计指定位置范围内1的个数，bitpos用来查找指定范围内出现的第一个0或1。如果制定了范围参数[start,end]就可以统计在某个时间范围内用户签到了多少天，遗憾的是start和end参数是字节索引，也就是说指定的范围必须是8的倍数，而不能任意指定。
+## HyperLogLog
+HyperLogLog也是redis提供的一种数据结构。这种数据结构就是用来解决统计问题，HyperLogLog提供不精确的去重技术方案，误差在0.81%，这种精度可以满足UV类的统计需求。   
+### 使用方法
+HyperLogLog提供了两个指令pfadd和pfcount，根据字面意义很好理解，一个是增加计数，一个是获取计数，pfadd用法和set集合的sadd是一样的，来一个用户ID,就将用户ID塞进去。pfcount和scard用法是一样的，直接获取计数量
+```sh
+pfadd hyperloglog user1
+pfadd hyperloglog user2
+pfcount hyperloglog #结果为2
+pfadd hyperloglog user3
+pfcount hyperloglog #结果为3
+pfadd hyper harry
+pfmerge hyperloglog hyper
+pfcount hyperloglog #结果为4
+```
+### 注意事项
+除了上述的两个命令外。还提供了三个指令，pfmerge，用于将多个pf计数值累加在一起形成一个新的pf值。HyperLogLog这个数据结构是需要花费代价的，它需占据一定的12k存储空间，所以它不适合统计单个用户相关的数据。如果用户量特别庞大的时候，相比set方案，这个数据结构用于统计uv还是非常值得的。
+不过也不用过于担心，Redis对HyperLogLog的储存进行了优化，在技术比较小时，它的存储空间采用稀疏矩阵存储，空间占用很小，仅仅在计数慢慢变大，稀疏矩阵占用空间渐渐超过了阀值时，才会一次性转变成稠密矩阵，才会占用12k的空间。

@@ -1,6 +1,6 @@
 module.exports = {
-  title: '哈里小屋',
-  description: '记录生活，记录成长',
+  title: "Harry's Blog",
+  description: '生活，成长',
   base: '/',
   host: '0.0.0.0',
   //mac下port未生效
@@ -19,6 +19,7 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: '技术文档', link: '/technical/' },
       { text: '随笔', link: '/article/' },
+      { text: '展示', link: 'http://www.harry5.xyz/index/' },
     ],
     
   
@@ -34,9 +35,6 @@ module.exports = {
       // 侧边栏在 /article/ 上
       '/article/': [
         '',
-        'nippon',
-        'change',
-        'life'
       ],
       '/technical/':[
         '',
@@ -48,7 +46,10 @@ module.exports = {
         'design',
         'nginx',
         'redis'
-      ]
+      ],
+      '/index/': [
+        '',
+      ],
     }
   }
 }

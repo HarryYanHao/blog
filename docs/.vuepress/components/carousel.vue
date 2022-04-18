@@ -6,6 +6,7 @@
 <script>
 import Carousel from '../../../src/carousel.vue'
 import Swipe from '../../../src/swipe.vue'
+global.navigator={ userAgent: 'node.js', };
 export default{
   components:{
     'carousel':Carousel,
