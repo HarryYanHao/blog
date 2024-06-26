@@ -1,6 +1,6 @@
 module.exports = {
   title: "Harry's Blog",
-  description: '生活，成长',
+  description: 'My Life',
   base: '/',
   host: '0.0.0.0',
   //mac下port未生效
@@ -45,7 +45,8 @@ module.exports = {
         'algorithm',
         'design',
         'nginx',
-        'redis'
+        'redis',
+        'docker'
       ],
       '/index/': [
         '',

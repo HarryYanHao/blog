@@ -23,7 +23,7 @@ ENV VUEPRESS_PUBLIC=/app/public
 ENV VUEPRESS_DIST=/app/.vuepress/dist
  
 # 暴露端口
-EXPOSE 3000
+EXPOSE 8081
  
 # # 启动VuePress开发服务器
 CMD ["npm", "run", "docs:dev"]
