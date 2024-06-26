@@ -7,7 +7,7 @@
         v-text="content"
         class="el-badge__content"
         :class="[
-          'el-badge__content--' + type,
+          type ? 'el-badge__content--' + type : null,
           {
             'is-fixed': $slots.default,
             'is-dot': isDot
@@ -23,7 +23,7 @@ export default {
   name: 'ElBadge',
 
   props: {
-    value: {},
+    value: [String, Number],
     max: Number,
     isDot: Boolean,
     hidden: Boolean,

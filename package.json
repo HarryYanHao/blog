@@ -15,7 +15,7 @@
     "element-ui": "^2.9.2",
     "npm": "^6.9.0",
     "vue": "^2.6.10",
-    "vue-server-renderer": "^2.7.16",
+    "vue-server-renderer": "^2.6.10",
     "vuepress": "^1.9.10"
   },
   "devDependencies": {

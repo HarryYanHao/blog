@@ -2,13 +2,13 @@ export default {
   el: {
     colorpicker: {
       confirm: 'Confirmar',
-      clear: 'Despejar'
+      clear: 'Limpiar'
     },
     datepicker: {
       now: 'Ahora',
       today: 'Hoy',
       cancel: 'Cancelar',
-      clear: 'Despejar',
+      clear: 'Limpiar',
       confirm: 'Confirmar',
       selectDate: 'Seleccionar fecha',
       selectTime: 'Seleccionar hora',
@@ -91,7 +91,7 @@ export default {
       emptyText: 'Sin Datos',
       confirmFilter: 'Confirmar',
       resetFilter: 'Reiniciar',
-      clearFilter: 'Despejar',
+      clearFilter: 'Limpiar',
       sumText: 'Suma'
     },
     tree: {
@@ -106,10 +106,17 @@ export default {
       hasCheckedFormat: '{checked}/{total} revisados'
     },
     image: {
-      error: 'FAILED' // to be translated
+      error: 'HA FALLADO'
     },
     pageHeader: {
-      title: 'Back' // to be translated
+      title: 'Volver'
+    },
+    popconfirm: {
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    },
+    empty: {
+      description: 'Sin Datos'
     }
   }
 };
