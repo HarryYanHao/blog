@@ -146,3 +146,11 @@ docker run -p 8081:8081 -v $(pwd):/app -it blog --name myblog
 ```sh
 docker exec -it myredis /bin/bash
 ```
+## 实际构建
+目标是构建一个python+nginx+uwsgi的镜像，模拟生产环境
+python使用到的框架是django，该项目具体内容可以看另外一篇笔记
+
+```sh
+docker exec -it myredis /bin/bash
+```
+### Dockerfile文件
