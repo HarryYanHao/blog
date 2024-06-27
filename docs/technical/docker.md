@@ -141,7 +141,7 @@ docker run -p 8081:8081 -v $(pwd):/app -it blog --name myblog
 
 --restart：设置容器的重启策略，如 always、on-failure。
 
-## 进入容器
+### 进入容器
 在运行的容器内启动一个交互式bash会话
 ```sh
 docker exec -it myredis /bin/bash
@@ -154,3 +154,51 @@ python使用到的框架是django，该项目具体内容可以看另外一篇�
 docker exec -it myredis /bin/bash
 ```
 ### Dockerfile文件
+```dockerfile
+# 基础镜像选择 Python 3.9
+FROM python:3.9
+
+# 设置工作目录
+WORKDIR /data/python/website
+
+# 复制项目文件到容器内
+COPY . /data/python/website
+
+# 安装依赖
+RUN pip install -r requirements.txt
+
+# 安装 uwsgi
+RUN pip install uwsgi
+
+# 安装 Nginx
+RUN apt-get update && \
+    apt-get install -y nginx
+
+
+#脚本权限修改
+RUN chmod +x ./boost.sh
+
+#Nginx 配置替换
+RUN rm /etc/nginx/sites-enabled/default && cp /data/python/website/default /etc/nginx/sites-enabled/default
+
+# 暴露端口
+EXPOSE 8000
+EXPOSE 80
+
+# 启动命令
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["./boost.sh"]
+# 启动 Nginx 和 uWSGI
+#ENTRYPOINT ["bash", "-c"]
+#CMD ["nginx && uwsgi --ini website/uwsgi.ini"]
+
+```
+新建shell 在启动的时候可以执行脚本中的多条命令,也可以ENTRYPOINT 和 CMD 配合使用 如注释中的例子。
+
+nginx中默认的配置也可以在构建镜像的时候修改
+
+### 遇到的问题
+镜像启动容器时，是一种前台活动，容器关闭对应的服务也会停止。
+之前是直接部署在机器上，uwsgi.ini配置了常驻启动，所以一直没发现。daemonize=uwsgi.log 使得容器一直尝试在后台运行，这时候就会有异常。   
+
+提醒了我们，不同的环境所需要的配置是不同的。
