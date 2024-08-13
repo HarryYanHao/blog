@@ -46,7 +46,8 @@ module.exports = {
         'design',
         'nginx',
         'redis',
-        'docker'
+        'docker',
+        'ai',
       ],
       '/index/': [
         '',
