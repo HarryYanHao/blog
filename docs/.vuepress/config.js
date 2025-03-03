@@ -1,15 +1,44 @@
 module.exports = {
   title: "Harry's Blog",
+  head: [
+    /*************** start 添加谷歌统计 ***********/
+    [
+      "script",
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=G-WDPVE7624H",
+        async: true
+      }
+    ],
+    [
+      "script",
+      {},
+      `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WDPVE7624H');
+      `
+    ],
+    /*************** end 添加谷歌统计 ***********/
+  ],
   description: 'My Life',
   base: '/',
   host: '0.0.0.0',
   //mac下port未生效
   port: 8081,
-  plugins: ['@vuepress/back-to-top',
+  plugins: [
+    [
+      '@vuepress/google-analytics',
       {
-        "libraryName": "element-ui",
-        "styleLibraryName": "theme-chalk"
-      }],
+        'ga': 'G-WDPVE7624H' // UA-00000000-0
+      }
+    ],
+    '@vuepress/back-to-top',
+    {
+      "libraryName": "element-ui",
+      "styleLibraryName": "theme-chalk"
+    }
+  ],
 
   themeConfig: {
     //gitc 仓库地址
@@ -19,7 +48,7 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: '技术文档', link: '/technical/' },
       { text: '随笔', link: '/article/' },
-      { text: '展示', link: 'http://www.harry5.xyz/index/' },
+      { text: '展示', link: 'http://stage.harrystar.top' },
     ],
     
   
@@ -48,6 +77,7 @@ module.exports = {
         'redis',
         'docker',
         'ai',
+        'vpn',
       ],
       '/index/': [
         '',

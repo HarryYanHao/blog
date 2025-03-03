@@ -118,6 +118,36 @@ docker build -t image_name .
 安全问题：Dockerfile中可能包含安全敏感的信息，如密码等。
 
 依赖管理：处理Dockerfile中的依赖关系可能复杂，特别是跨多个层时。
+## docker网络通信
+### 网络驱动
+安装 Docker 以后，会默认创建三种网络。
+```sh
+docker network ls #查看所有的网络
+```
+- bridge：默认网络，每个容器都有自己的IP地址，默认情况下，容器之间可以通过IP地址进行通信。docker0虚拟网桥，每次重启IP地址有可能发生变化
+
+- host：使用主机网络，容器和主机共享网络命名空间，容器将不会虚拟出自己的网卡，配置自己的 IP 等，而是使用宿主机的 IP 和端口。-p 参数在此网络下不起作用
+
+- none：创建一个空的容器，不启动网络功能。有独立的网络命名空间，但并没有对其进行任何网络设置，如分配 veth pair 和网桥连接，IP 等
+
+可以使用--net host 或者 --network host来指定
+
+### 容器间通信
+#### 创建网络连接
+```sh
+docker network create -d bridge my-bridge-network
+```
+-d指定网络驱动
+在启动容器时使用 --network标志将其连接到网络 --ip指定固定的ip这样每次启动时ip是不会变化的
+```sh
+docker run -d -v $(pwd):/var/www/html --network=container-network  --ip=172.28.0.101 -p 8089:80 nextcloud #例子
+```
+不容的网络的容器不能相互通信。如果需要可以将容器添加到同一个网络中。
+```sh
+docker network connect my_bridge web
+```
+
+
 ## 启动容器
 ```sh
 docker run -p 8081:8081 -v $(pwd):/app -it blog --name myblog
@@ -137,7 +167,7 @@ docker run -p 8081:8081 -v $(pwd):/app -it blog --name myblog
 **开发环境的构建通常是将项目目录挂载到容器的工作目录下
 生产环境通常是将代码和环境同时打包 并不要求挂载项目目录**
 
---rm：当容器停止时自动删除容器。
+--rm：当容器停止时自动删除容器。可用于调试生成需要的文件
 
 --restart：设置容器的重启策略，如 always、on-failure。
 
@@ -226,4 +256,4 @@ docker-php-source delete
 
 为了方便外网访问，于是我用到了ngrok提供的内网穿透技术，这个项目在官网也提供了docker环境。
 
-以上项目的安装方法请参考ai笔记相关章节
+以上项目的安装方法请参考[ai笔记相关章节](ai.md#本地搭建)

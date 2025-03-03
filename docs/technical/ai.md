@@ -14,10 +14,10 @@ AI已然成为了近段时间的热词，从Openai的ChatGPT到先如今，短�
 
 ***现在，就是AI***
 
-## 综合使用
+## 闭源模型
 在很多场景下，AI工具已经能替代搜索引擎的作用。能够更为直接、快速的获取到所需要的信息，不需要人为的再进行二次过滤。
 
-[ChatGPT](https://chat.openai.com/)
+### [ChatGPT](https://chat.openai.com/)
 
 ChatGPT当然不让，他就是AI界的代表，也是我接触的第一款AI工具。ChatGpt是由OpenAI推出的一款基于GPT-3.5的AI语言模型，可以回答各种问题、生成文本、翻译等。
 
@@ -39,7 +39,76 @@ ChatGPT 具有以下一些优点：
 
 3.需要付费且支付方式不够友好
 
-[豆包](https://www.doubao.com/chat)
+### [豆包](https://www.doubao.com/chat)
 
 由字节跳动公司基于云雀模型开发的。云雀模型使用了大量的文本数据进行训练，并应用了先进的机器学习技术和算法，具备知识解答，
 语言学习，文本创作，逻辑分析等能力
+
+### [文心一言](https://yiyan.baidu.com/)
+文心一言是百度公司研发的知识增强大语言模型，英文名是ERNIE Bot。它能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。
+
+文心一言基于Transformer结构，是百度依托深厚的飞桨、文心大模型的技术研发的知识增强大语言模型，能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。
+
+文心一言的特点在于其强大的语言理解能力和知识增强特性。它能够深入理解用户输入的自然语言，并基于广泛的知识库进行推理和回答。同时，文心一言还具备持续学习的能力，能够不断优化和改进自身的性能。
+
+在应用场景方面，文心一言可以广泛应用于各种领域，如智能客服、智能写作、智能问答等。它可以帮助企业提高客户服务质量，降低运营成本；也可以帮助个人提高写作效率，拓展创作思路。
+
+总之，文心一言是百度公司研发的一款功能强大的知识增强大语言模型，具有广泛的应用前景和巨大的市场潜力。 （ai 生成）
+
+## 开源模型
+如果想自己尝试在本地搭建ai应用，我们可以使用开源模型。开源模型还可以通过数据集微调语言模型，让他能更了解你，成为你专属的ai助手。
+
+
+另一个使用场景是搭建自己的知识库，基于开源语言模型，在知识库中快速的检索出需要的答案。
+
+我在本地搭建的是 ollama+Open WebUI+qwen
+
+知识库搭建的是anythingllm
+
+### 本地搭建
+#### ollama与ai大语言模型的搭建
+:::tip
+ollma官方镜像与文档
+
+<https://hub.docker.com/r/ollama/ollama>
+:::
+```sh
+docker pull ollama/ollama
+#cpu only
+docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+#进入容器后执行
+ollama run qwen2:1.5b
+```
+#### 可视化界面Open WebUI搭建
+:::tip
+Open WebUI官方镜像与文档
+
+<https://github.com/open-webui/open-webui/pkgs/container/open-webui>
+:::
+```sh
+docker pull ghcr.io/open-webui/open-webui:git-9682806-ollama
+#If Ollama is on your computer, use this command:
+docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+```
+启动后浏览器访问localhost:3000即可使用可视化的方式操作大语言模型
+
+#### 知识库搭建
+:::tip
+anythingllm官方镜像与文档
+
+<https://github.com/Mintplex-Labs/anything-llm/blob/master/docker/HOW_TO_USE_DOCKER.md>
+:::
+
+```sh
+#映射文件路径需要手动修改 $STORAGE_LOCATION
+export STORAGE_LOCATION=$HOME/anythingllm && \
+mkdir -p $STORAGE_LOCATION && \
+touch "$STORAGE_LOCATION/.env" && \
+docker run -d -p 3001:3001 \
+--cap-add SYS_ADMIN \
+-v ${STORAGE_LOCATION}:/app/server/storage \
+-v ${STORAGE_LOCATION}/.env:/app/server/.env \
+-e STORAGE_DIR="/app/server/storage" \
+mintplexlabs/anythingllm
+```
+启动后浏览器访问localhost:3001即可使用可视化的方式操作知识库，他需要选择一个我们之前安装的大语言模型，例如我们之前安装的qwen2:1.5b。然后在界面中，我们上传需要的文档内容，将这些文档做为知识库，相当于是数据集微调大语言模型。然后就可以通过ai来检索出需要的答案了。
