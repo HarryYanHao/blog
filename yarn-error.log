@@ -1,0 +1,50 @@
+Arguments: 
+  /usr/local/bin/node /opt/yarn-v1.22.19/bin/yarn.js add -D @vuepress/plugin-google-analytics
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  14.21.3
+
+Platform: 
+  linux arm64
+
+Trace: 
+  Error: ENFILE: file table overflow, copyfile '/usr/local/share/.cache/yarn/v6/npm-core-js-3.38.1-aa375b79a286a670388a1a363363d53677c0383e-integrity/node_modules/core-js/modules/esnext.iterator.filter.js' -> '/app/node_modules/core-js/modules/esnext.iterator.filter.js'
+
+npm manifest: 
+  {
+    "name": "vuepress",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "docs:dev": "vuepress dev docs",
+      "docs:build": "vuepress build docs"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "element-ui": "^2.9.2",
+      "npm": "^6.9.0",
+      "vue": "^2.6.10",
+      "vue-server-renderer": "^2.6.10",
+      "vuepress": "^1.9.10"
+    },
+    "devDependencies": {
+      "@vuepress/plugin-back-to-top": "^1.0.0-alpha.0",
+      "mint-ui": "^2.2.13"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
