@@ -26,7 +26,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // 从 GitHub 特定分支拉取代码
-                git branch: "${params.GIT_REF}", url: 'git@github.com:HarryYanHao/blog.git',clean: true
+                git branch: "${params.GIT_REF}", url: 'git@github.com:HarryYanHao/blog.git'
             }
         }
         stage('Package') {
