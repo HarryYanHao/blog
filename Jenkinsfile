@@ -8,7 +8,7 @@ pipeline {
     // 定义参数，允许用户选择要拉取的分支
     parameters {
         //choice(name: 'GIT_TAG_BRANCH', choices: ['master', 'dev', 'feature-branch'], description: '选择要构建的分支')
-        gitParameter name: 'GIT_TAG_BRANCH', type: 'PT_BRANCH_TAG', branchFilter: 'origin/(.*)',branch: '', tagFilter: '*', defaultValue: 'master', sortMode: 'DESCENDING_SMART', selectedValue: 'DEFAULT', quickFilterEnabled: false
+        gitParameter name: 'GIT_REF', type: 'PT_TAG_AND_BRANCH', tagFilter: '*',branchFilter: 'origin/(.*)',branch: '', tagFilter: '*', defaultValue: 'master', sortMode: 'DESCENDING_SMART', selectedValue: 'DEFAULT', quickFilterEnabled: false
     }
     environment {
         // 目标服务器信息
@@ -25,7 +25,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // 从 GitHub 特定分支拉取代码
-                git branch: "${params.GIT_TAG_BRANCH}", url: 'git@github.com:HarryYanHao/blog.git'
+                git branch: "${params.GIT_REF}", url: 'git@github.com:HarryYanHao/blog.git'
             }
         }
         stage('Package') {
