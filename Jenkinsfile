@@ -1,19 +1,85 @@
+def notice(title,message){
+    def encodeTitle = java.net.URLEncoder.encode(title, "UTF-8")
+    def encodeMessage = java.net.URLEncoder.encode(message, "UTF-8")
+    sh "curl -s http://47.115.150.92:8085/MWpHHyPxQDX95ay7cg2bbE/${encodeTitle}/${encodeMessage}"
+}
 pipeline {
     agent any
+    // 定义参数，允许用户选择要拉取的分支
     parameters {
-        string(name: 'tag', defaultValue: 'default value', description: '自定义字符串参数')
+        choice(name: 'BRANCH', choices: ['master', 'dev', 'feature-branch'], description: '选择要构建的分支')
+    }
+    environment {
+        // 目标服务器信息
+        SERVER_USER = 'root'
+        SERVER_HOST = '47.115.150.92'
+        SERVER_PORT = '22'
+        REMOTE_DIR = '/data'
+        // Docker 镜像信息
+        IMAGE_NAME = 'harrystart/blog'
+        IMAGE_TAG = 'latest'
+        CONTAINER_NAME = 'myBlog'
     }
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                dir('/Users/harry/docker/blog'){
-                    sh 'echo "Hello World"'
-                    sh 'ls -l'
-                    echo "自定义字符串参数值: ${params.tag}"
-                }
-            
+                // 从 GitHub 特定分支拉取代码
+                git branch: "${params.BRANCH}", url: 'git@github.com:HarryYanHao/blog.git'
             }
-            
+        }
+        stage('Package') {
+            steps {
+                // 打包代码，这里以 tar 为例
+                sh 'tar -zcvf code.tar.gz .'
+            }
+        }
+        stage('Upload to Server') {
+            steps {
+                // 使用 SSH 上传打包后的代码到目标服务器
+                sh "scp -P ${SERVER_PORT} code.tar.gz ${SERVER_USER}@${SERVER_HOST}:${REMOTE_DIR}"
+                notice(env.STAGE_NAME,'执行成功')
+            }
+           
+        }
+        stage('clean Docker on Server') {
+            steps{
+                script{
+                    if(sh(script: "ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} 'docker ps -q -f name=${CONTAINER_NAME}'", returnStdout: true).trim()){
+                        sh """
+                        ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} << EOF
+                        cd ${REMOTE_DIR}
+                        docker stop ${CONTAINER_NAME}
+                        docker rm ${CONTAINER_NAME}
+EOF
+                        """
+                        
+                    }
+                    if(sh(script: "ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} 'docker images -q ${IMAGE_NAME}:${IMAGE_TAG}'", returnStdout: true)){
+                        sh """
+                        ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} << EOF
+                        cd ${REMOTE_DIR}
+                        docker rmi  ${IMAGE_NAME}:${IMAGE_TAG}
+EOF
+                        """
+                        
+                    }
+                }
+                
+            }
+        }
+        stage('Build Docker Image on Server') {
+            steps {
+                // 使用 SSH 在服务器上解压代码并构建 Docker 镜像
+                sh """
+                ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} << EOF
+                cd ${REMOTE_DIR}
+                tar -zxvf code.tar.gz
+                docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                docker run -d --name ${CONTAINER_NAME} -p 8081:8081 ${IMAGE_NAME}:${IMAGE_TAG}
+EOF
+                """
+                notice(env.STAGE_NAME,'部署完成')
+            }
         }
     }
 }
