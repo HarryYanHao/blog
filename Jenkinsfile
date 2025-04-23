@@ -8,7 +8,7 @@ pipeline {
     // 定义参数，允许用户选择要拉取的分支
     parameters {
         //choice(name: 'GIT_TAG_BRANCH', choices: ['master', 'dev', 'feature-branch'], description: '选择要构建的分支')
-        gitParameter name: 'GIT_REF', type: 'PT_BRANCH_TAG', tagFilter: 'origin/(.*)',branchFilter: 'origin/(.*)',branch: '', defaultValue: 'master', sortMode: 'DESCENDING_SMART', selectedValue: 'DEFAULT', quickFilterEnabled: false
+        gitParameter name: 'GIT_REF', type: 'PT_TAG_AND_BRANCH', tagFilter: '*',branchFilter: 'origin/(.*)',branch: '', defaultValue: 'master', sortMode: 'DESCENDING_SMART', selectedValue: 'DEFAULT', quickFilterEnabled: false
     }
     environment {
         // 目标服务器信息
