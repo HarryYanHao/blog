@@ -27,7 +27,7 @@ pipeline {
                 script{
                     
                         // 尝试检查是否为有效的标签
-                        if(sh("git ls-remote --tags origin refs/tags/${GIT_REF}",returnStdout: true)){
+                        if(sh(script:"git ls-remote --tags origin refs/tags/${GIT_REF}",returnStdout: true)){
                             checkoutRef = "refs/tags/${GIT_REF}"
                         }else{
                              // 如果不是标签，则当作分支处理
