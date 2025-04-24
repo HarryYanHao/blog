@@ -24,20 +24,21 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script{
-                    
-                        // 尝试检查是否为有效的标签
-                        if(sh(script:"git ls-remote --tags origin refs/tags/${GIT_REF}",returnStdout: true)){
-                            def checkoutRef = "refs/tags/${GIT_REF}"
-                        }else{
-                             // 如果不是标签，则当作分支处理
-                            def checkoutRef = ${GIT_REF}
-                        }
+                // script{
+                //         // 尝试检查是否为有效的标签
+                //         if(sh(script:"git ls-remote --tags origin refs/tags/${GIT_REF}",returnStdout: true)){
+                //             checkoutRef = "refs/tags/${GIT_REF}"
+                //         }else{
+                //              // 如果不是标签，则当作分支处理
+                //             checkoutRef = "${GIT_REF}"
+                //         }
                         
                     
-                }
+                // }
                 // 从 GitHub 特定分支拉取代码
-                git branch: ${checkoutRef}, url: 'git@github.com:HarryYanHao/blog.git'
+                //git branch: checkoutRef, url: 'git@github.com:HarryYanHao/blog.git'
+                checkout scmGit(branches: [[name: params.GIT_REF]],
+                        userRemoteConfigs: [[url: 'git@github.com:HarryYanHao/blog.git']])
             }
         }
         stage('Package') {
