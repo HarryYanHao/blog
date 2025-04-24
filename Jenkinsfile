@@ -25,14 +25,16 @@ pipeline {
         stage('Checkout') {
             steps {
                 script{
-                    try {
+                    
                         // 尝试检查是否为有效的标签
-                        sh "git ls-remote --tags origin refs/tags/${GIT_REF}"
-                        checkoutRef = "refs/tags/${GIT_REF}"
-                    } catch (Exception e) {
-                        // 如果不是标签，则当作分支处理
-                        checkoutRef = name
-                    }
+                        if(sh("git ls-remote --tags origin refs/tags/${GIT_REF}",returnStdout: true)){
+                            checkoutRef = "refs/tags/${GIT_REF}"
+                        }else{
+                             // 如果不是标签，则当作分支处理
+                            checkoutRef = ${GIT_REF}
+                        }
+                        
+                    
                 }
                 // 从 GitHub 特定分支拉取代码
                 git branch: checkoutRef, url: 'git@github.com:HarryYanHao/blog.git'
