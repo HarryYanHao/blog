@@ -45,14 +45,14 @@ pipeline {
             steps {
                 lock('code-tar-file') {
                     // 打包代码，这里以 tar 为例
-                    sh 'tar -zcvf code.tar.gz .'
+                    sh 'tar -zcvf /tmp/code.tar.gz .'
                 }
             }
         }
         stage('Upload to Server') {
             steps {
                 // 使用 SSH 上传打包后的代码到目标服务器
-                sh "scp -P ${SERVER_PORT} code.tar.gz ${SERVER_USER}@${SERVER_HOST}:${REMOTE_DIR}"
+                sh "scp -P ${SERVER_PORT} /tmp/code.tar.gz ${SERVER_USER}@${SERVER_HOST}:${REMOTE_DIR}"
                 notice(env.STAGE_NAME,'执行成功')
             }
            
