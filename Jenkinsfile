@@ -43,8 +43,10 @@ pipeline {
         }
         stage('Package') {
             steps {
-                // 打包代码，这里以 tar 为例
-                sh 'tar -zcvf code.tar.gz .'
+                lock('code-tar-file') {
+                    // 打包代码，这里以 tar 为例
+                    sh 'tar -zcvf code.tar.gz .'
+                }
             }
         }
         stage('Upload to Server') {
