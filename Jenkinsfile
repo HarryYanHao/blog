@@ -58,7 +58,7 @@ pipeline {
         stage('clean Docker on Server') {
             steps{
                 script{
-                    if(sh(script: "ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} 'docker ps -q -f name=${CONTAINER_NAME}'", returnStdout: true).trim()){
+                    if(sh(script: "ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} 'docker ps -a -q -f name=${CONTAINER_NAME}'", returnStdout: true).trim()){
                         sh """
                         ssh -p ${SERVER_PORT} ${SERVER_USER}@${SERVER_HOST} << EOF
                         cd ${REMOTE_DIR}
